@@ -15,6 +15,8 @@ namespace heapsort_example
             {
                 Console.WriteLine(value);
             }
+
+            Test.Run();
         }
     }
 }
