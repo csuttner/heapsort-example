@@ -11,6 +11,7 @@ namespace heapsort_example
         {
             Heapify(array);
 
+
             for (int i = array.Length - 1; i > 0; i--)
             {
                 Swap(array, 0, i);
@@ -18,7 +19,7 @@ namespace heapsort_example
 
                 do
                 {
-                    index = (j * 2) + 1;
+                    index = (2 * j + 1);
 
                     if (index < (i - 1) && array[index] < array[index + 1])
                         index++;
@@ -43,7 +44,7 @@ namespace heapsort_example
                     int j = i;
 
                     // Swap child and parent until parent is smaller
-                    while (array[i] < array[(j - 1) / 2])
+                    while (array[j] > array[(j - 1) / 2])
                     {
                         Swap(array, j, (j - 1) / 2);
                         j = (j - 1) / 2;
