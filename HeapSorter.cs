@@ -1,63 +1,71 @@
 ﻿using System;
 namespace heapsort_example
 {
-
-    // Code elements borrowed from:
-    // https://www.geeksforgeeks.org/iterative-heap-sort/
-
+    // Version of code without console output, pure functionality
+    // Code modified from Geeks for Geeks and HackerRank examples
     public class HeapSorter
     {
-        public static void HeapSort(int[] array)
+        public static void HeapSort(int[] items)
         {
-            Heapify(array);
+            int n = items.Length;
 
-            for (int i = array.Length - 1; i > 0; i--)
+            // Build heap, can start halfway through array working to front
+            // since back half of the array won't have children anyways 
+            for (int i = n / 2 - 1; i >= 0; i--)
+                Heapify(items, n, i);
+
+            // Swap root (max value) with last item in subarray, shrink this
+            // array by 1, rebuild heap, repeat 
+            for (int i = n - 1; i > 0; i--)
             {
-                Swap(array, 0, i);
-                int j = 0, index;
+                // Swap root with end
+                int temp = items[0];
+                items[0] = items[i];
+                items[i] = temp;
 
-                do
-                {
-                    index = (j * 2) + 1;
-
-                    if (index < (i - 1) && array[index] < array[index + 1])
-                        index++;
-
-                    if (index < i && array[j] < array[index])
-                        Swap(array, j, index);
-
-                    j = index;
-
-                } while (index < i);
+                // Rebuild heap
+                Heapify(items, i, 0);
             }
-
         }
 
-        private static void Heapify(int[] array)
+        // Heapify a subtree rooted with node root - an index in items.
+        private static void Heapify(int[] items, int size, int root)
         {
-            for (int i = 1; i < array.Length; i++)
-            {
-                // If child is bigger than parent
-                if (array[i] > array[(i - 1) / 2])
-                {
-                    int j = i;
+            // start at root
+            int index = root;
+            int leftIndex = (index * 2) + 1;
+            int rightIndex = (index * 2) + 2;
 
-                    // Swap child and parent until parent is smaller
-                    while (array[i] < array[(j - 1) / 2])
-                    {
-                        Swap(array, j, (j - 1) / 2);
-                        j = (j - 1) / 2;
-                    }
+            // while the given index has a left child
+            while (leftIndex < size)
+            {
+                // set largest child index to left child by default
+                // no left would ensure no right, due to filling order
+                int largestChildIndex = leftIndex;
+
+                // if the right child exists and is larger, set largest to that
+                if (rightIndex < size && items[rightIndex] > items[leftIndex])
+                    largestChildIndex = rightIndex;
+
+                // if the given item is greater than it's largest child,
+                // we can stop looping
+                if (items[index] > items[largestChildIndex])
+                {
+                    break;
+                }
+                else
+                {
+                    // swap the two
+                    int temp = items[index];
+                    items[index] = items[largestChildIndex];
+                    items[largestChildIndex] = temp;
+
+                    // increment the index down the heap
+                    index = largestChildIndex;
+                    leftIndex = (index * 2) + 1;
+                    rightIndex = (index * 2) + 2;
                 }
             }
         }
-
-        private static void Swap(int[] array, int index1, int index2)
-        {
-            int temp = array[index1];
-            array[index1] = array[index2];
-            array[index2] = temp;
-        }
-
     }
 }

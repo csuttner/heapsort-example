@@ -7,16 +7,12 @@ namespace heapsort_example
         static void Main(string[] args)
         {
             // Defining an array to be sorted
-            int[] values = new int[] { 12, 34, 2, 87, 90, 16, 45, 0 };
+            int[] values = new int[] { 23, 201, 59, 10, 5, 74, 36 };
 
-            HeapSorter.HeapSort(values);
-
-            foreach (int value in values)
-            {
-                Console.WriteLine(value);
-            }
+            HeapSorterConsoleWalkthrough.HeapSort(values);
 
             //HeapSortTest.Run();
+
         }
     }
 }
