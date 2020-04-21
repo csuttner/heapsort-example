@@ -15,7 +15,6 @@ namespace heapsort_example
             Printer.PrintArray(items);
             Console.WriteLine("Inital tree representation:");
             Printer.PrintTree(items, items.Length);
-            Console.WriteLine("Press enter/return to continue...");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 
             // Build heap, can start halfway through array working to front
@@ -28,7 +27,7 @@ namespace heapsort_example
 
             Console.WriteLine("Max heap built:");
             Printer.PrintTree(items, items.Length);
-            Console.WriteLine("Press enter/return to continue...");
+            //Console.WriteLine();
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 
             // Swap root (max value) with last item in subarray, shrink this
@@ -40,12 +39,11 @@ namespace heapsort_example
                 items[0] = items[i];
                 items[i] = temp;
 
-                Console.WriteLine("Dequeued largest value, {0}, swapped with {1}", temp, items[0]);
+                Console.WriteLine("Dequeued largest value, {0}, swapped with {1}\n", temp, items[0]);
                 Console.WriteLine("Array as of now:");
                 Printer.PrintArray(items);
-                Console.WriteLine("Heap size reduced:");
+                Console.WriteLine("Heap size reduced to {0}:", i);
                 Printer.PrintTree(items, i);
-                Console.WriteLine("Press enter/return to continue...");
                 while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 
                 // Rebuild heap
@@ -60,16 +58,20 @@ namespace heapsort_example
         // Heapify a subtree rooted with node root - an index in items.
         private static void Heapify(int[] items, int size, int root)
         {
-            Console.WriteLine("Called Heapify on root {0}, heap size {1}", root, size);
 
             // start at root
             int index = root;
             int leftIndex = (index * 2) + 1;
             int rightIndex = (index * 2) + 2;
 
+            Console.WriteLine("Heapifying from: index {0} ({1})\nheap size: {2}\n", root, items[root], size);
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+
             // while the given index has a left child
             while (leftIndex < size)
             {
+                Console.WriteLine("Current node: index {0} ({1})", index, items[index]);
+
                 // set largest child index to left child by default
                 int largestChildIndex = leftIndex;
 
@@ -77,10 +79,15 @@ namespace heapsort_example
                 if (rightIndex < size && items[rightIndex] > items[leftIndex])
                     largestChildIndex = rightIndex;
 
+                Console.WriteLine("largest child: index {0} ({1})\n", largestChildIndex, items[largestChildIndex]);
+                while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+
+
                 // if the given item is greater than it's largest child,
                 // we can stop looping
                 if (items[index] > items[largestChildIndex])
                 {
+                    Console.WriteLine("largest child < current index, breaking loop\n");
                     break;
                 }
                 else
@@ -90,16 +97,20 @@ namespace heapsort_example
                     items[index] = items[largestChildIndex];
                     items[largestChildIndex] = temp;
 
-                    Console.WriteLine("Swapped {0} with {1}", temp, items[index]);
+                    Console.WriteLine("Swapped {0} with {1}:" , temp, items[index]);
+                    Printer.PrintTree(items, size);
+                    Console.WriteLine("incremented index to {0} ({1})\n", largestChildIndex, items[largestChildIndex]);
 
                     // increment the index down the heap
                     index = largestChildIndex;
                     leftIndex = (index * 2) + 1;
                     rightIndex = (index * 2) + 2;
+
+                    
                 }
             }
 
-            Console.WriteLine();
+            Console.WriteLine("Heapify complete\n");
         }
     }
 }
